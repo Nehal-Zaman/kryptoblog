@@ -1,0 +1,109 @@
+:root {
+    --bg-color: #0a0a0a;
+    --text-color: #cccccc;
+    --accent-color: #4af626; /* Terminal Green */
+    --border-color: #333333;
+    --error-color: #ff3333;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Fira Code', 'Consolas', monospace;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4 {
+    color: #ffffff;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
+
+/* Form Elements */
+input[type="text"], input[type="password"], textarea {
+    background-color: #111;
+    color: var(--accent-color);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background-color: #111;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 10px 20px;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--accent-color);
+    color: #000;
+}
+
+/* Markdown Specifics */
+pre {
+    background-color: #111;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+
+code {
+    color: #ffb86c;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border-color);
+}
+
+/* Custom File Upload Button Styling */
+input[type="file"] {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: var(--text-color);
+    margin-bottom: 25px;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #111;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 10px 20px;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    margin-right: 15px;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--accent-color);
+    color: #000;
+}

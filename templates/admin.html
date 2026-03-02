@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin | {{ site_config.site_name }}{% endblock %}
+
+{% block content %}
+<h2>[ Admin Terminal ]</h2>
+
+{% if not session.get('is_admin') %}
+    <p>Authenticate to access the dashboard.</p>
+    {% if error %}<p style="color: var(--error-color);">{{ error }}</p>{% endif %}
+    
+    <form method="POST">
+        <input type="password" name="admin_pass" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+{% else %}
+    <form method="POST" style="margin-bottom: 20px; text-align: right;">
+        <button type="submit" name="logout" style="border-color: var(--error-color); color: var(--error-color);">Logout</button>
+    </form>
+
+    {% if message %}
+        <p style="color: {% if 'Error' in message %}var(--error-color){% else %}var(--accent-color){% endif %}; font-weight: bold;">
+            {{ message }}
+        </p>
+    {% endif %}
+
+    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+        
+        <div style="flex: 1; min-width: 300px;">
+            <h3>Add New Writeup</h3>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="add_post" value="1">
+                
+                <label>URL Slug (e.g., pirate-htb):</label>
+                <input type="text" name="slug" required>
+                
+                <label>Post Title (e.g., HTB: Pirate):</label>
+                <input type="text" name="title" required>
+                
+                <label style="display: flex; align-items: center; gap: 10px; margin-top: 10px; margin-bottom: 15px; color: var(--accent-color);">
+                    <input type="checkbox" name="is_encrypted" id="is_encrypted" checked 
+                           onchange="document.getElementById('flag_input').required = this.checked; document.getElementById('flag_input').disabled = !this.checked;"
+                           style="width: auto; margin: 0;">
+                    [✓] Require Passphrase / Encrypt Post
+                </label>
+                
+                <label>Root Flag (Passphrase):</label>
+                <input type="password" name="flag" id="flag_input" required>
+                
+                <br><br>
+                <label><b>Option A:</b> Upload Markdown File (.md)</label>
+                <input type="file" name="markdown_file" accept=".md" style="display: block;">
+                
+                <label><b>Option B:</b> Paste Markdown Content</label>
+                <textarea name="markdown_text" rows="10" placeholder="# HackTheBox Writeup..."></textarea>
+                
+                <label><b>Option C:</b> Upload Associated Images</label>
+                <input type="file" name="images" multiple accept="image/png, image/jpeg, image/gif" style="display: block;">
+                
+                <button type="submit" style="margin-top: 15px;">Commit to Database</button>
+            </form>
+        </div>
+
+        <div style="flex: 1; min-width: 300px;">
+            <h3>Manage Writeups</h3>
+            <ul style="list-style-type: none; padding: 0;">
+                {% for post in posts %}
+                    <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;">
+                        <span>
+                            > {{ post['title'] }} 
+                            {% if post['is_encrypted'] %}
+                                <span style="color: var(--error-color); font-size: 0.8em;">[LOCKED]</span>
+                            {% else %}
+                                <span style="color: var(--accent-color); font-size: 0.8em;">[PUBLIC]</span>
+                            {% endif %}
+                            <br><small style="color: #666;">({{ post['slug'] }})</small>
+                        </span>
+                        
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <a href="{{ url_for('edit_post', slug=post['slug']) }}" 
+                               style="border: 1px solid var(--accent-color); color: var(--accent-color); padding: 5px 10px; font-size: 0.8em; text-decoration: none; font-weight: bold; background-color: #111;">
+                               Edit
+                            </a>
+                        
+                            <form method="POST" style="margin: 0;" onsubmit="return confirm('WARNING: Are you sure you want to permanently delete this writeup and all its images?');">
+                                <input type="hidden" name="delete_post" value="1">
+                                <input type="hidden" name="slug_to_delete" value="{{ post['slug'] }}">
+                                <button type="submit" style="border-color: var(--error-color); color: var(--error-color); padding: 5px 10px; font-size: 0.8em;">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                {% else %}
+                    <li>No writeups found in the database.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+{% endif %}
+{% endblock %}

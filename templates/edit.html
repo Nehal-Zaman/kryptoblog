@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{{ url_for('admin') }}"><< Return to Admin Dashboard</a>
+<hr style="border-color: var(--border-color); margin: 20px 0;">
+
+<h2>[ Edit Target: {{ post['slug'] }} ]</h2>
+
+{% if message %}
+    <p style="color: {% if 'Error' in message %}var(--error-color){% else %}var(--accent-color){% endif %}; font-weight: bold;">
+        {{ message }}
+    </p>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data" style="max-width: 800px;">
+    
+    <label>URL Slug (Locked):</label>
+    <input type="text" value="{{ post['slug'] }}" disabled style="color: #666; border-color: #333;">
+    
+    <label>Post Title:</label>
+    <input type="text" name="title" value="{{ post['title'] }}" required>
+    
+    <label style="display: flex; align-items: center; gap: 10px; margin-top: 10px; margin-bottom: 15px; color: var(--accent-color);">
+        <input type="checkbox" name="is_encrypted" id="is_encrypted" 
+               {% if post['is_encrypted'] %}checked{% endif %}
+               onchange="document.getElementById('flag_input').disabled = !this.checked;"
+               style="width: auto; margin: 0;">
+        [✓] Require Passphrase / Encrypt Post
+    </label>
+    
+    <label>Root Flag (Leave blank to keep existing passphrase):</label>
+    <input type="password" name="flag" id="flag_input" placeholder="***" {% if not post['is_encrypted'] %}disabled{% endif %}>
+    
+    <br><br>
+    
+    <label><b>Option A:</b> Overwrite with new Markdown File (.md)</label>
+    <input type="file" name="markdown_file" accept=".md" style="display: block;">
+    
+    <label><b>Option B:</b> Edit Markdown Content Directly</label>
+    <textarea name="markdown_text" rows="20" required>{{ existing_md }}</textarea>
+    
+    <label><b>Append Associated Images:</b></label>
+    <input type="file" name="images" multiple accept="image/png, image/jpeg, image/gif" style="display: block;">
+    
+    <button type="submit" style="margin-top: 15px; width: 100%;">Commit Update</button>
+</form>
+
+{% endblock %}
