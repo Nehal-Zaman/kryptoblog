@@ -1,21 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Available Writeups</h2>
-    <ul style="list-style-type: none; padding: 0;">
-        {% for post in posts %}
-            <li style="margin-bottom: 10px;">
-                <a href="{{ url_for('view_post', slug=post['slug']) }}">
-                    > {{ post['title'] }} 
-                    {% if post['is_encrypted'] %}
-                        <span style="color: var(--error-color); font-size: 0.8em; margin-left: 5px;">[LOCKED]</span>
-                    {% else %}
-                        <span style="color: var(--accent-color); font-size: 0.8em; margin-left: 5px;">[PUBLIC]</span>
-                    {% endif %}
-                </a>
-            </li>
-        {% else %}
-            <li>No writeups available yet.</li>
-        {% endfor %}
-    </ul>
+
+    {% if about_content %}
+        <section style="margin-bottom: 40px; border: 1px solid #222; padding: 20px; background-color: #0a0a0a;">
+            {{ about_content | safe }}
+        </section>
+        <hr style="border-color: var(--border-color); margin: 30px 0;">
+    {% endif %}
+
+    <section>
+        <h2>Recent Writeups</h2>
+        <ul style="list-style-type: none; padding: 0;">
+            {% for post in posts %}
+                <li style="margin-bottom: 10px;">
+                    <a href="{{ url_for('view_post', slug=post['slug']) }}">
+                        > {{ post['title'] }} 
+                        {% if post['is_encrypted'] %}
+                            <span style="color: var(--error-color); font-size: 0.8em; margin-left: 5px;">[LOCKED]</span>
+                        {% else %}
+                            <span style="color: var(--accent-color); font-size: 0.8em; margin-left: 5px;">[PUBLIC]</span>
+                        {% endif %}
+                    </a>
+                </li>
+            {% else %}
+                <li>No writeups available yet.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
 {% endblock %}

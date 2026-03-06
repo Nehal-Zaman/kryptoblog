@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}whoami - {{ site_config.site_name }}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('index') }}"><< Return to index</a>
+<hr style="border-color: var(--border-color); margin: 20px 0;">
+
+<h2>[ whoami ]</h2>
+
+{% if content %}
+    <article style="margin-top: 20px;">
+        {{ content | safe }}
+    </article>
+{% else %}
+    <p style="color: #666; font-style: italic;">Profile information has not been populated yet.</p>
+{% endif %}
+
+{% endblock %}

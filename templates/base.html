@@ -4,11 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ site_config.site_name }}{% endblock %}</title>
+    
+    {% block meta %}
+    <meta property="og:title" content="{{ site_config.site_name }}">
+    <meta property="og:description" content="{{ site_config.description }}">
+    {% endblock %}
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1><a href="{{ url_for('index') }}">~/{{ site_config.site_name }}</a> <span style="font-size: 0.4em; color: var(--border-color);">{{ site_config.site_version }}</span></h1>
+    <header style="border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; margin-bottom: 30px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px;">
+            <h1 style="border: none; margin: 0;">
+                <a href="{{ url_for('index') }}">~/{{ site_config.site_name }}</a> 
+                <span style="font-size: 0.4em; color: var(--border-color);">{{ site_config.site_version }}</span>
+            </h1>
+            
+            <nav>
+                <a href="{{ url_for('index') }}" style="font-weight: bold; margin-right: 15px;">[ ~/ ]</a>
+                <a href="{{ url_for('blogs') }}" style="font-weight: bold; margin-right: 15px;">[ blogs ]</a>
+                <a href="{{ url_for('about') }}" style="font-weight: bold;">[ whoami ]</a>
+            </nav>
+        </div>
     </header>
     <main>
         {% block content %}{% endblock %}

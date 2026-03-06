@@ -96,6 +96,18 @@
             </ul>
         </div>
 
+        <div style="flex: 1; min-width: 300px; margin-top: 20px;">
+            <hr style="border-color: var(--border-color); margin: 20px 0;">
+            <h3>Update [ whoami ]</h3>
+            <p style="font-size: 0.9em; color: #888;">Supports full Markdown.</p>
+            
+            <form method="POST">
+                <input type="hidden" name="update_about" value="1">
+                <textarea name="about_text" rows="12" placeholder="# whoami&#10;I am a security researcher...">{{ existing_about }}</textarea>
+                <button type="submit" style="margin-top: 15px;">Update Profile</button>
+            </form>
+        </div>
+
     </div>
 {% endif %}
 {% endblock %}

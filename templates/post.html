@@ -2,6 +2,16 @@
 
 {% block title %}{{ title }} - {{ site_config.site_name }}{% endblock %}
 
+{% block meta %}
+    <meta property="og:title" content="{{ title }} - {{ site_config.site_name }}">
+    <meta property="og:description" content="{{ preview_text }}">
+    
+    {% if preview_image %}
+        <meta property="og:image" content="{{ request.url_root[:-1] }}{{ preview_image }}">
+        <meta name="twitter:card" content="summary_large_image">
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <a href="{{ url_for('index') }}"><< Return to index</a>
     
